@@ -29,7 +29,11 @@ const clientSchema = new mongoose.Schema({
         quantity: {
             type: Number,
             default: 0,
-        }
+        },
+        size: {
+            type: String,
+            default: "",
+        },
     }],
     purchasedClasses: {
         type: [mongoose.Schema.Types.ObjectId],

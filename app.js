@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 const app = express();
 const cors = require('cors');
 const dotenv = require("dotenv");
@@ -15,6 +16,8 @@ require('./db/conn');
 app.use(express.json());
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const imagePath = 'uploads/2023-12-23T05-50-33.843Zimage (2).png';
 const resolvedPath = path.resolve(imagePath);
@@ -22,7 +25,7 @@ console.log(resolvedPath);
 
 app.use('/uploads', express.static('uploads'));
 const corsOptions = {
-    origin: [`${process.env.FRONTEND_URL}`,`${process.env.FRONTEND_URL1}`],
+    origin: ["https://blackfusefitness.com"," https://admin.blackfusefitness.com"],
     credentials: true,
 };
 app.use(cors(corsOptions));

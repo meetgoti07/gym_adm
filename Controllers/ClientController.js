@@ -354,11 +354,10 @@ exports.updatePaymentStatus = async (req, res) => {
           OrderReceiptLink,
         },
       });
+      return res.redirect('https://blackfusefitness.com/payment-failed');
     }
 
-    res.status(201).json({
-      message: 'Update payment status successfully',
-    });
+    return res.redirect('https://blackfusefitness.com/payment-success');
 
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -459,13 +458,14 @@ exports.buyAllOrders = async (req, res) => {
 
     let findAllProducts = await Cart.aggregate([
       { $match: { "cpId.clientId": clientId } },
-      { $project: { _id: 0, "cpId.productId": 1, quantity: { $toInt: "$quantity" } } }
+      { $project: { _id: 0, "cpId.productId": 1, quantity: { $toInt: "$quantity" }, size: 1 } }
     ]);
 
     findAllProducts = findAllProducts.map((product) => {
       return {
         products: product.cpId.productId,
         quantity: product.quantity,
+        size: product.size, 
       }
     });
 
@@ -609,6 +609,8 @@ exports.buyMembership = async (req, res) => {
     }, {
       upsert: true,
     });
+
+    console.log(membership);
 
     await Client.updateOne(
       { _id: clientId },
