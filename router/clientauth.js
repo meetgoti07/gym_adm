@@ -15,7 +15,7 @@ router.post("/:productId/cart", authenticate, ClientController.addToCart);
 router.post("/signature", authenticate, ClientController.getSignature);
 router.post("/paymentconfirmation", ClientController.paymentConfirmation);
 router.get("/payment-details", authenticate, ClientController.getPaymentDetails);
-router.post("/payment-status", authenticate, ClientController.updatePaymentStatus);
+router.post("/payment-status", ClientController.updatePaymentStatus);
 
 router.post("/orders", authenticate, ClientController.buyAllOrders);
 
