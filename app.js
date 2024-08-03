@@ -10,6 +10,13 @@ const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 const { OAuth2Client } = require('google-auth-library');
 
+app.use('/uploads', express.static('uploads'));
+const corsOptions = {
+    origin: ["http://localhost:3000", "http://localhost:3001"],
+    credentials: true,
+};
+app.use(cors(corsOptions));
+
 const path = require('path');
 dotenv.config({ path: './config.env' });
 require('./db/conn');
@@ -23,12 +30,7 @@ const imagePath = 'uploads/2023-12-23T05-50-33.843Zimage (2).png';
 const resolvedPath = path.resolve(imagePath);
 console.log(resolvedPath);
 
-app.use('/uploads', express.static('uploads'));
-const corsOptions = {
-    origin: ["https://blackfusefitness.com"," https://admin.blackfusefitness.com"],
-    credentials: true,
-};
-app.use(cors(corsOptions));
+
 
 // ROUTES
 app.use(require('./router/adminauth'));
